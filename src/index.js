@@ -5,7 +5,7 @@ const bodyParser=require('body-parser')
 
 const app =express();
 
-const prepareAndStartServer=()=>{
+const prepareAndStartServer=async()=>{
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended:true}));
@@ -15,6 +15,10 @@ const prepareAndStartServer=()=>{
     app.listen(PORT,()=>{
         console.log(`Server started on Port: ${PORT}`)
     })
+    // const {UserRepository}=require('./repository/user-repository');
+    // const repo=new UserRepository();
+    // const response=await repo.getUser(2);
+    // console.log(response);
 }
 
 prepareAndStartServer();
