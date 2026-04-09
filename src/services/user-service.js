@@ -2,6 +2,7 @@ const {UserRepository} =require('../repository/user-repository.js');
 const jwt = require('jsonwebtoken');
 const userRepository= new UserRepository();
 const {JWT_KEY}=require('../config/serverConfig.js');
+const bcrypt=require('bcrypt')
 class UserService{
 
     async createUser(data){
@@ -55,6 +56,18 @@ class UserService{
                 throw error
             }
         }
+
+        checkpassword(userInputPassword,encryptedPassword){
+            try {
+                const response=bcrypt.compareSync(userInputPassword,encryptedPassword);
+                return response;
+            } catch (error) {
+                console.log('Something went wrong in password comparision');
+                throw error;
+            }
+        }
+
+        
     
 }
 module.exports = {
