@@ -36,7 +36,29 @@ class UserService{
             console.log('Something went wrong in service layer');
             throw error;
         }
+    }
+
+    async signIn(email,plainPassword){
+        try {
+            // fetch  the user through the email
+            const user=await userRepository.getByEmail(email);
+            // compare incoming plain password with store encrypted password 
+            const passwordMatch=this.checkpassword(plainPassword,user.password);
+
+            if(!passwordMatch){
+                console.log('Password does not match');
+                throw {error:'Incorrect Password'};
+            }
+
+            // step-3 if passwords match then create a token and send it to the user
+            const newJWT=await this.createToken({email:user.email,id:user.id});
+        
+            return newJWT;
+        } catch (error) {
+            console.log('Something went wrong in signin process');
+            throw error;
         }
+    }
 
         createToken(user){
             try {
@@ -67,7 +89,8 @@ class UserService{
             }
         }
 
-        
+
+
     
 }
 module.exports = {
