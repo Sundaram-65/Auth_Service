@@ -66,7 +66,7 @@ class UserService{
             if(!response){
                 throw {err:'user not Verified'}
             }
-            const user=userRepository.getByEmail(response.email);
+            const user=await userRepository.getByEmail(response.email);
             if(!user){
                 throw {err:'User not exist with this token'}
             }
