@@ -60,6 +60,23 @@ class UserService{
         }
     }
 
+    async isAuthenticated(token){
+        try {
+            const response=await this.verifyToken(token);
+            if(!response){
+                throw {err:'user not Verified'}
+            }
+            const user=userRepository.getByEmail(response.email);
+            if(!user){
+                throw {err:'User not exist with this token'}
+            }
+            return user.id;
+        } catch (error) {
+            console.log('Something went wrong in Auth process');
+            throw error;
+        }
+    }
+
         createToken(user){
             try {
                 const result=jwt.sign(user,JWT_KEY,{expiresIn:'1d'});
