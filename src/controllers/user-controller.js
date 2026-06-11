@@ -81,10 +81,29 @@ const isAdmin=async(req,res)=>{
         })
     }
 }
-
+ // get
+const getUser=async(req,res)=>{
+        try {
+            const user=await userService.getUser(req.params.id);
+            return res.status(200).json({
+            data:user,
+            err:{},
+            success:true,
+            message:'Succesfully fetched user'
+             })
+        } catch (error) {
+            return res.status(500).json({
+            message:'Something went wrong',
+            data:{},
+            success:false,
+            err:error
+            })
+        }
+}
 module.exports={
     createUser,
     signIn,
     isAuthenticated,
-    isAdmin
+    isAdmin,
+    getUser
 }
